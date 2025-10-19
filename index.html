@@ -3,335 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unbreakable Editor</title>
-    <link rel="icon" href="logo.png" type="image/jpg">
+    <title>Portafolio | Editor Unbreakable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
-        body {
+        /* Variables de color para fácil modificación */
+        :root {
+            --color-primario: #3498db; /* Azul claro para contactos */
+            --color-secundario: #f1c40f; /* Amarillo para botones de solicitud */
+            --color-texto-btn-claro: #000000; /* Negro para texto en botones amarillos */
+            --color-texto-btn-oscuro: #ffffff; /* Blanco para texto en botones azules */
+            --color-fondo-texto: rgba(0, 0, 0, 0.75); /* Fondo oscuro semitransparente para el texto */
+            --color-texto-general: #ecf0f1; /* Gris claro para el texto */
+        }
+
+        /* ---------------------------------- */
+        /* ESTILOS GENERALES         */
+        /* ---------------------------------- */
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: sans-serif;
+            color: var(--color-texto-general);
+            /* El fondo es la imagen */
+            background: #1c1c1c; /* Color de fallback si la imagen no carga */
+            min-height: 100vh;
+        }
+
+        /* Contenedor del fondo y overlay para oscurecer la imagen y que el texto resalte */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Detrás del contenido */
             background-image: url('fondo.jpg');
             background-size: cover;
-            background-attachment: fixed;
-            color: #fff;
+            background-position: center;
+            background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
+            filter: brightness(0.4); /* Oscurece la imagen de fondo */
         }
 
-        header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        header img {
-            height: 150px;
-            margin-right: 15px;
-        }
-
-        header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .presentacion {
-            padding: 50px 20px;
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .presentacion h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .presentacion p {
-            font-size: 18px;
-            max-width: 800px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
 
-        .catalogo {
-            padding: 50px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .catalogo h2 {
-            font-size: 36px;
+        h1, h2, h3 {
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .servicio {
-            margin-bottom: 40px;
-        }
-
-        .servicio h3 {
-            font-size: 24px;
             margin-bottom: 20px;
         }
 
-        .ejemplos {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
+        h1 {
+            font-size: 3em;
+            color: var(--color-texto-general);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 40px 0 20px 0;
         }
 
-        .ejemplos img, .ejemplos video {
-            width: 30%;
+        h2 {
+            font-size: 2em;
+            padding: 10px 20px;
+            background-color: var(--color-fondo-texto); 
+            border-radius: 5px;
+            display: block; /* Para que tome el ancho del contenedor */
+            margin: 20px auto;
+            width: fit-content;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* ---------------------------------- */
+        /* SECCIONES                 */
+        /* ---------------------------------- */
+
+        .hero {
+            text-align: center;
             margin-bottom: 20px;
+        }
+
+        .presentacion, .servicios, .contactos {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--color-fondo-texto); /* Fondo semi-transparente para el contenido */
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
 
-        .contactos {
-            padding: 50px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+        .imagen-presentacion {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        /* ---------------------------------- */
+        /* SERVICIOS                 */
+        /* ---------------------------------- */
+
+        .servicio-item {
             text-align: center;
+            margin-bottom: 30px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
         }
 
-        .contactos h2 {
-            font-size: 36px;
-            margin-bottom: 40px;
-        }
-
-        .redes-sociales {
+        .ejemplos-galeria {
             display: flex;
+            flex-wrap: wrap; /* Permite que las imágenes bajen en pantallas pequeñas */
             justify-content: center;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .red-social {
-            margin: 20px;
+        .ejemplos-galeria img {
+            width: 100%; /* Por defecto 100% para móvil */
+            max-width: 200px; /* Tamaño máximo para las miniaturas y banners */
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .ejemplos-galeria img:hover {
+            transform: scale(1.05);
+        }
+
+        .imagen-perfil {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid var(--color-primario);
+        }
+
+        /* Estilo para los botones de Solicitar Ahora */
+        .btn-solicitar, .btn-ejemplos {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--color-secundario); /* Amarillo */
+            color: var(--color-texto-btn-claro); /* Negro */
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-solicitar:hover, .btn-ejemplos:hover {
+            background-color: #f39c12; /* Amarillo más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+        }
+
+        /* ---------------------------------- */
+        /* CONTACTOS                 */
+        /* ---------------------------------- */
+
+        .contactos-galeria {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contacto-item {
             text-align: center;
         }
 
-        .red-social img {
-            height: 50px;
+        .contacto-logo {
+            font-size: 4em;
+            color: var(--color-texto-general);
             margin-bottom: 10px;
         }
 
-        .red-social a {
+        /* Estilo para los botones de Contacto */
+        .btn-contacto {
             display: block;
             padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
+            background-color: var(--color-primario); /* Azul claro */
+            color: var(--color-texto-btn-oscuro); /* Blanco */
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s;
         }
 
-        .red-social a:hover {
-            background-color: #0056b3;
+        .btn-contacto:hover {
+            background-color: #2980b9; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
-            .ejemplos img, .ejemplos video {
-                width: 45%;
-            }
+        /* ---------------------------------- */
+        /* FOOTER                    */
+        /* ---------------------------------- */
 
-            .presentacion h2 {
-                font-size: 28px;
-            }
-
-            .presentacion p {
-                font-size: 16px;
-            }
-
-            .catalogo h2, .contactos h2 {
-                font-size: 28px;
-            }
-
-            .servicio h3 {
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .ejemplos img, .ejemplos video {
-                width: 100%;
-            }
-
-            .presentacion h2 {
-                font-size: 24px;
-            }
-
-            .presentacion p {
-                font-size: 14px;
-            }
-
-            .catalogo h2, .contactos h2 {
-                font-size: 24px;
-            }
-
-            .servicio h3 {
-                font-size: 18px;
-            }
-        }
-
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .presentacion, .catalogo, .contactos {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .servicio {
-            animation: slideIn 1s ease-in-out;
-        }
-
-        /* Efectos de hover */
-        .red-social a:hover {
-            transform: scale(1.1);
-            transition: transform 0.3s;
-        }
-
-        /* Botón de "Ir al inicio" */
-        #scrollToTop {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
+        footer {
+            text-align: center;
             padding: 15px;
-            border-radius: 50%;
-            transition: background-color 0.3s;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #bdc3c7;
+            margin-top: 40px;
         }
 
-        #scrollToTop:hover {
-            background-color: #0056b3;
+        /* ---------------------------------- */
+        /* ADAPTABILIDAD (RESPONSIVE)*/
+        /* ---------------------------------- */
+
+        /* Para tabletas y escritorios pequeños */
+        @media (min-width: 600px) {
+            h1 {
+                font-size: 4em;
+            }
+            
+            .ejemplos-galeria img {
+                /* Para que quepan 2 o 3 en una fila */
+                width: calc(33.333% - 10px); 
+                max-width: 180px; 
+            }
+        }
+
+        /* Para escritorios grandes */
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 5em;
+            }
+
+            .ejemplos-galeria img {
+                /* Para que quepan 4 o 5 en una fila */
+                width: calc(20% - 10px); 
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <img src="logo.png" alt="Logo">
-        <h1>Unbreakable Editor</h1>
+
+    <div class="background-overlay"></div>
+
+    <header class="hero">
+        <h1>Editor Unbreakable</h1>
     </header>
 
-    <section class="presentacion">
-        <h2>Hola Soy Unbreakable Editor / Hi I'm Unbreakable Editor</h2>
-        <p>Soy un profesional en diseño y edición de video. Mi objetivo es ayudarte a crear contenido visualmente impactante para tus redes sociales, TikTok, YouTube, Twitch y más. Con un enfoque en la creatividad y la calidad, te ofrezco servicios personalizados que se adaptan a tus necesidades. ¡Trabajemos juntos para hacer que tu contenido destaque!</p>
-    </section>
+    <main class="container">
+        <section class="presentacion">
+            <img src="presentacion.jpg" alt="Presentación de Unbreakable Editor" class="imagen-presentacion">
+        </section>
 
-    <section class="catalogo">
-        <h2>Mis Servicios / My Services</h2>
-        <div class="servicio">
-            <h3>Miniaturas para YouTube 3$ USD - $50 MX</h3>
-            <div class="ejemplos">
-                <img src="miniatura1.jpg" alt="Miniatura 1">
-                <img src="miniatura2.jpg" alt="Miniatura 2">
-                <img src="miniatura3.jpg" alt="Miniatura 3">
-                <img src="miniatura4.jpg" alt="Miniatura 4">
-                <img src="miniatura5.jpg" alt="Miniatura 5">
+        <section class="servicios">
+            <h2>Mis servicios</h2>
+
+            <div class="servicio-item">
+                <h3>Miniaturas para YouTube $50 MX - 3$ USD</h3>
+                <div class="ejemplos-galeria">
+                    <img src="miniatura1.jpg" alt="Ejemplo de Miniatura 1">
+                    <img src="miniatura2.jpg" alt="Ejemplo de Miniatura 2">
+                    <img src="miniatura3.jpg" alt="Ejemplo de Miniatura 3">
+                    <img src="miniatura4.jpg" alt="Ejemplo de Miniatura 4">
+                    <img src="miniatura5.jpg" alt="Ejemplo de Miniatura 5">
+                </div>
+                <a href="https://wa.me/5215513436492" target="_blank" class="btn-solicitar">Solicitar Ahora</a>
             </div>
-        </div>
 
-        <div class="servicio">
-            <h3>Edición de Video 3$ USD - $50 MX </h3>
-            <h4>Este repositorio no me deja tener archivos tan pesados como los videos </h4>
-             <div class="ejemplos">
-                <img src="perfil-tiktok.png" alt="TikTok">
-                <a href="https://www.tiktok.com/@editor_unbreakable?is_from_webapp=1&sender_device=pc" target="_blank">TikTok</a>
+            <div class="servicio-item">
+                <h3>Edición de video $50 MX - 3$ USD</h3>
+            <div class="ejemplos-galeria">
+                <img src="perfil.jpg" alt="Perfil de TikTok para ejemplos de Edición de video" class="imagen-perfil">
+
             </div>
+                <a href="https://www.tiktok.com/@editor_unbreakable?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-ejemplos">Ejemplos de Edición</a>
             </div>
-        </div>
 
-        <div class="servicio">
-            <h3>Banners para Redes Sociales  10$ USD - $200 MX</h3>
-            <div class="ejemplos">
-                <img src="banner1.jpg" alt="Banner 1">
-                <img src="banner2.jpg" alt="Banner 2">
-                <img src="banner3.jpg" alt="Banner 3">
+            <div class="servicio-item">
+                <h3>Banners para redes sociales $200 MX - 10$ USD</h3>
+                <div class="ejemplos-galeria">
+                    <img src="banner1.jpg" alt="Ejemplo de Banner 1">
+                    <img src="banner2.jpg" alt="Ejemplo de Banner 2">
+                    <img src="banner3.jpg" alt="Ejemplo de Banner 3">
+                </div>
+                <a href="https://wa.me/5215513436492" target="_blank" class="btn-solicitar">Solicitar Ahora</a>
             </div>
-        </div>
 
-        <div class="servicio">
-            <h3>Anuncios / Ads 5$ USD - $100 MX</h3>
-            <div class="ejemplos">
-                <img src="anuncio1.jpg" alt="Anuncio 1">
-                <img src="anuncio2.jpg" alt="Anuncio 2">
-                <img src="anuncio3.jpg" alt="Anuncio 3">
+            <div class="servicio-item">
+                <h3>Anuncios $100 MX - 5$ USD</h3>
+                <div class="ejemplos-galeria">
+                    <img src="anuncio1.jpg" alt="Ejemplo de Anuncio 1">
+                    <img src="anuncio2.jpg" alt="Ejemplo de Anuncio 2">
+                    <img src="anuncio3.jpg" alt="Ejemplo de Anuncio 3">
+                </div>
+                <a href="https://wa.me/5215513436492" target="_blank" class="btn-solicitar">Solicitar Ahora</a>
             </div>
-        </div>
 
-        <div class="servicio">
-            <h3>Emotes 3$ USD - $50 MX </h3>
-            <div class="ejemplos">
-                <img src="emote1.jpg" alt="Emote 1">
-                <img src="emote2.jpg" alt="Emote 2">
-                <img src="emote3.jpg" alt="Emote 3">
+            <div class="servicio-item">
+                <h3>Emotes $50 MX - 3$ USD</h3>
+                <div class="ejemplos-galeria">
+                    <img src="emote1.jpg" alt="Ejemplo de Emote 1">
+                    <img src="emote2.jpg" alt="Ejemplo de Emote 2">
+                    <img src="emote3.jpg" alt="Ejemplo de Emote 3">
+                </div>
+                <a href="https://wa.me/5215513436492" target="_blank" class="btn-solicitar">Solicitar Ahora</a>
             </div>
-        </div>
 
-        <div class="servicio">
-            <h3>Marco de Stream / Stream Overlay 10$ USD - $200 MX </h3>
-            <div class="ejemplos">
-                <img src="stream1.jpg" alt="Fondo de Stream 1">
-                <img src="stream2.jpg" alt="Fondo de Stream 2">
-                <img src="stream3.jpg" alt="Fondo de Stream 3">
+            <div class="servicio-item">
+                <h3>Marco de Stream / Stream Overlay $200 MX - 10$ USD</h3>
+                <div class="ejemplos-galeria">
+                    <img src="stream1.jpg" alt="Ejemplo de Stream Overlay 1">
+                    <img src="stream2.jpg" alt="Ejemplo de Stream Overlay 2">
+                    <img src="stream3.jpg" alt="Ejemplo de Stream Overlay 3">
+                </div>
+                <a href="https://wa.me/5215513436492" target="_blank" class="btn-solicitar">Solicitar Ahora</a>
             </div>
-        </div>
 
-    </section>
-
-    <section class="contactos">
-        <h2>Contactos </h2>
-        <h3>Te cotizo por cualquiera de estos medios </h3>
-        <div class="redes-sociales">
-            <div class="red-social">
-                <img src="logo-instagram.png" alt="Instagram">
-                <a href="https://www.instagram.com/editor_unbreakable/" target="_blank">Instagram</a>
+        </section>
+        
+        <section class="contactos">
+            <h2>Contactos</h2>
+            <div class="contactos-galeria">
+                <div class="contacto-item">
+                    <i class="fab fa-tiktok contacto-logo"></i>
+                    <a href="https://www.tiktok.com/@editor_unbreakable?is_from_webapp=1&sender_device=pc" target="_blank" class="btn-contacto">TikTok</a>
+                </div>
+                <div class="contacto-item">
+                    <i class="fab fa-whatsapp contacto-logo"></i>
+                    <a href="https://wa.me/message/OA3QUHR7USUMC1" target="_blank" class="btn-contacto">WhatsApp</a>
+                </div>
             </div>
-            <div class="red-social">
-                <img src="logo-tiktok.png" alt="TikTok">
-                <a href="https://www.tiktok.com/@editor_unbreakable?is_from_webapp=1&sender_device=pc" target="_blank">TikTok</a>
-            </div>
-          
-            <div class="red-social">
-                <img src="logo-x.png" alt="X">
-                <a href="https://x.com/Unbreakable183"_blank">X</a>
-            </div>
-            <div class="red-social">
-                <img src="logo-whatsapp.png" alt="WhatsApp">
-                <a href="https://wa.me/5215513436492" target="_blank">WhatsApp</a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <button id="scrollToTop" title="Ir al inicio">↑</button>
+    </main>
 
-    <script>
-        // Botón para ir al inicio
-        const scrollToTopButton = document.getElementById('scrollToTop');
+    <footer>
+        <p>&copy; 2025 Unbreakable Editor. Todos los derechos reservados.</p>
+    </footer>
 
-        window.onscroll = function() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollToTopButton.style.display = "block";
-            } else {
-                scrollToTopButton.style.display = "none";
-            }
-        };
-
-        scrollToTopButton.onclick = function() {
-            document.body.scrollTop = 0; // Para Safari
-            document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE y Opera
-        };
-    </script>
 </body>
 </html>
-
-
-
